@@ -32,4 +32,17 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <Button
+        android:id="@+id/btnED"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/main_background"
+        android:onClick="escolherData"
+        android:text="Escolher Data"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/btnHoje"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

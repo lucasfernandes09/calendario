@@ -1,14 +1,22 @@
 package com.app.meucalendario;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 
 import com.app.meucalendario.adapter.AdapterCalendario;
 import com.app.meucalendario.model.Dia;
@@ -29,14 +37,16 @@ public class MainActivity extends AppCompatActivity {
     private Dia dia;
     private RecyclerView rvCalendario;
     private int mesAtual = 0;
+    private Spinner spnMes, spnAno;
+    private Button btnOk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //remover ActionBar
-        Objects.requireNonNull(getSupportActionBar()).hide();
+        //config ActionBar
+        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2c2c2c")));
 
         //período do calendário
         LocalDate ldInicial = LocalDate.of(2000, 1, 1);
@@ -165,6 +175,38 @@ public class MainActivity extends AppCompatActivity {
         rvCalendario.scrollToPosition(mesAtual);
         //para problemas de travamento no scroll(função lambda)
         new Handler().postDelayed(() -> rvCalendario.smoothScrollToPosition(mesAtual), 50);
+    }
+
+    public void escolherData(View view) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        //config layout
+        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+        View viewDialog = inflater.inflate(R.layout.layout_escolher_data, null, false);
+        dialog.setView(viewDialog);
+
+        spnMes = viewDialog.findViewById(R.id.spnMes); spnAno = viewDialog.findViewById(R.id.spnAno);
+        btnOk = viewDialog.findViewById(R.id.btnOk);
+
+        //config spnMes
+        String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
+        ArrayAdapter<String> adapterMeses = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, meses);
+        adapterMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnMes.setAdapter(adapterMeses);
+
+        int mes = spnMes.getSelectedItemPosition() + 1;
+
+        //config spnAno
+        String[] anos = {"2000", "2001", "2002"};
+        ArrayAdapter<String> adapterAnos = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, anos);
+        adapterAnos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnAno.setAdapter(adapterAnos);
+
+        int ano = Integer.parseInt(spnAno.getSelectedItem().toString());
+        Log.i("infoCalendario", "hascode: " + ano);
+
+        dialog.create();
+        dialog.show();
     }
 
 
