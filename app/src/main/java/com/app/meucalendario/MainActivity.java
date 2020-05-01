@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private Dia dia;
     private RecyclerView rvCalendario;
     private int mesAtual = 0;
+    private int mesEscolhido = 0;
+    private AlertDialog.Builder dialog;
     private Spinner spnMes, spnAno;
     private Button btnOk;
 
@@ -96,8 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void mesAtual() {
         LocalDate ldNow = LocalDate.now();
-        for(int i=0; i<listaDeMeses.size(); i++) {
-            mes = listaDeMeses.get(i);
+        for(Mes mes : listaDeMeses) {
             if(mes.getNumero()==ldNow.getMonthValue() && mes.getAno()==ldNow.getYear()) {
                 mesAtual = listaDeMeses.indexOf(mes);
             }
@@ -171,14 +173,14 @@ public class MainActivity extends AppCompatActivity {
         mes.setListaDeFeriados(listaDeFeriados);
     }
 
-    public void scrollToPosition(View view) {
+    public void exibirDataAtual(View view) {
         rvCalendario.scrollToPosition(mesAtual);
         //para problemas de travamento no scroll(função lambda)
         new Handler().postDelayed(() -> rvCalendario.smoothScrollToPosition(mesAtual), 50);
     }
 
     public void escolherData(View view) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog = new AlertDialog.Builder(this);
 
         //config layout
         LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
@@ -188,25 +190,42 @@ public class MainActivity extends AppCompatActivity {
         spnMes = viewDialog.findViewById(R.id.spnMes); spnAno = viewDialog.findViewById(R.id.spnAno);
         btnOk = viewDialog.findViewById(R.id.btnOk);
 
-        //config spnMes
-        String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-        ArrayAdapter<String> adapterMeses = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, meses);
-        adapterMeses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //config spinner Mes
+        String[] meses = getResources().getStringArray(R.array.meses);
+        ArrayAdapter<String> adapterMeses = new ArrayAdapter<>(MainActivity.this, R.layout.layout_spinner, meses);
+        adapterMeses.setDropDownViewResource(R.layout.dropdown_spinner);
         spnMes.setAdapter(adapterMeses);
 
-        int mes = spnMes.getSelectedItemPosition() + 1;
-
-        //config spnAno
-        String[] anos = {"2000", "2001", "2002"};
-        ArrayAdapter<String> adapterAnos = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, anos);
-        adapterAnos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //config spinner Ano
+        ArrayAdapter<String> adapterAnos = new ArrayAdapter<>(MainActivity.this, R.layout.layout_spinner);
+        for(int i=0; i<=40; i++) { adapterAnos.add(String.valueOf(2000+i)); }
+        adapterAnos.setDropDownViewResource(R.layout.dropdown_spinner);
         spnAno.setAdapter(adapterAnos);
 
-        int ano = Integer.parseInt(spnAno.getSelectedItem().toString());
-        Log.i("infoCalendario", "hascode: " + ano);
+        AlertDialog show = dialog.show();
 
-        dialog.create();
-        dialog.show();
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ok();
+                show.dismiss();
+            }
+        });
+    }
+
+    public void ok() {
+        int mesSelected = spnMes.getSelectedItemPosition() + 1;
+        int anoSelected = Integer.parseInt(spnAno.getSelectedItem().toString());
+
+        for(Mes mes : listaDeMeses) {
+            if(mes.getNumero()==mesSelected && mes.getAno()==anoSelected) {
+                mesEscolhido = listaDeMeses.indexOf(mes);
+            }
+        }
+
+        rvCalendario.scrollToPosition(mesEscolhido);
+        //para problemas de travamento no scroll(função lambda)
+        new Handler().postDelayed(() -> rvCalendario.smoothScrollToPosition(mesEscolhido), 50);
     }
 
 

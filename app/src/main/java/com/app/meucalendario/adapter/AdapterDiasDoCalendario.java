@@ -99,7 +99,7 @@ public class AdapterDiasDoCalendario extends RecyclerView.Adapter<AdapterDiasDoC
     public void diaAtual(Dia dia, MyViewHolder holder) {
         if(dia.getDiaDoMes()==ldNow.getDayOfMonth() && dia.getMes().equals(ldNow.getMonth().name()) && dia.getAno()==ldNow.getYear()) {
             //holder.tvDia.setBackgroundResource(R.drawable.bordas);
-            holder.tvDia.setTypeface(null, Typeface.BOLD_ITALIC);
+            holder.tvDia.setTypeface(null, Typeface.BOLD);
         }
     }
 
