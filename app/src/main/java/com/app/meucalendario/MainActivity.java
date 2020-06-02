@@ -1,7 +1,9 @@
 package com.app.meucalendario;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +16,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //config ActionBar
-        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2c2c2c")));
+        Objects.requireNonNull(getSupportActionBar()).setElevation(0);
 
         //período do calendário
         LocalDate ldInicial = LocalDate.of(2000, 1, 1);
@@ -227,6 +231,5 @@ public class MainActivity extends AppCompatActivity {
         //para problemas de travamento no scroll(função lambda)
         new Handler().postDelayed(() -> rvCalendario.smoothScrollToPosition(mesEscolhido), 50);
     }
-
 
 }
