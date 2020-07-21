@@ -1,7 +1,9 @@
 package com.app.meucalendario.adapter;
 
+
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Typeface;
+
 import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,9 +99,9 @@ public class AdapterDiasDoCalendario extends RecyclerView.Adapter<AdapterDiasDoC
     }
 
     public void diaAtual(Dia dia, MyViewHolder holder) {
-        if(dia.getDiaDoMes()==ldNow.getDayOfMonth() && dia.getMes().equals(ldNow.getMonth().name()) && dia.getAno()==ldNow.getYear()) {
-            //holder.tvDia.setBackgroundResource(R.drawable.bordas);
-            holder.tvDia.setTypeface(null, Typeface.BOLD);
+        if(dia.getDiaDoMes()==ldNow.getDayOfMonth() &&
+                dia.getMes().equals(ldNow.getMonth().name()) && dia.getAno()==ldNow.getYear()) {
+            holder.tvDia.setTextColor(Color.WHITE);
         }
     }
 
