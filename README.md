@@ -1,6 +1,9 @@
-# Calendário 
+<h1>
+Calendário
+<img src="app/src/main/res/mipmap-hdpi/ic_launcher_round.png">
+</h1>
 
-<img src="calendário_img/calendário_1.png" width=200 height=400 > <img src="calendário_img/calendário_3.png" width=200 height=400 > <img src="calendário_img/calendário_2.png" width=200 height=400 > ![](app/src/main/res/mipmap-hdpi/ic_launcher_round.png) 
+<img src="calendário_img/calendário_1.png" width=200 height=400 > <img src="calendário_img/calendário_3.png" width=200 height=400 > <img src="calendário_img/calendário_2.png" width=200 height=400 >
 
 **Calendário desenvolvido implementando a nova API de data e hora do java, presente a partir do java 8.**
  
